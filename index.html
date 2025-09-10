@@ -454,18 +454,112 @@ body.dark .product-card {
 .carousel-dot.active {
   background: rgba(0,0,0,0.9);
 }
+
 .search {
-  text-align: center;
+    text-align: center;
   color: #000000;
+}
+/* Botão hamburguer flutuante no canto superior esquerdo */
+.hamburger {
+  display: block;
+  position: fixed; /* para ficar sempre visível */
+  top: 20px;
+  left: 20px;
+  font-size: 28px;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  color: white;
+  z-index: 1001;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+/* Ajuste geral para dark mode */
+body.dark {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark header,
+body.dark footer {
+  background: #1f1f1f;
+  color: #fff;
+}
+
+body.dark nav a,
+body.dark .side-menu a {
+  color: #e0e0e0;
+}
+
+body.dark section {
+  background: rgba(30,30,30,0.95);
+  color: #e0e0e0;
+}
+
+body.dark .product-card,
+body.dark .products-grid .product-card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark input,
+body.dark #search {
+  background: #2c2c2c;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+body.dark .carousel {
+  background: #1e1e1e;
+}
+
+body.dark .carousel-dots .carousel-dot {
+  background: rgba(255,255,255,0.5);
+}
+body.dark .carousel-dots .carousel-dot.active {
+  background: #fff;
+}
+
+body.dark .parallax {
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+}
+/* Ícone de lupa fixo dentro do header */
+.search-btn {
+  position: absolute; /* dentro do header */
+  top: 50%;
+  right: 20px; /* distância da borda direita */
+  transform: translateY(-50%);
+  font-size: 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.search-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: #333;
 }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1> Gaucho Pipas</h1>
-    <button class="toggle-dark" onclick="toggleDarkMode()">🌙/☀️</button>
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
+<header>
+  <h1>Gaucho Pipas</h1>
+  <button class="toggle-dark" onclick="toggleDarkMode()">🌙/☀️</button>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+
 
 <nav class="side-menu" id="sideMenu">
   <a href="#pipas" onclick="toggleMenu()">Pipas</a>
@@ -484,7 +578,7 @@ body.dark .product-card {
       <h2>Sobre Nós</h2>
       <p>Somos apaixonados por pipas! Trabalhamos com materiais de qualidade e tradição no bairro há mais de 10 anos.</p>
     </section>
-  <main><div class="search"> <h2>procure abaixo o que deseja! </h2></div>
+  <main><div class="search"></div>
     <input type="text" id="search" placeholder="Buscar produto..." onkeyup="buscarProdutos()"/>
 
    <section id="pipas">
