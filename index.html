@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gaucho Pipas</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --bg-dark: #000000;
+      --text-light: #000000;
+      --text-dark: #f5f5f5;
+      --primary: #000000;
+      --secondary: #555555;
+    }
+
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--text-light);
+      background: var(--bg-light);
+      transition: background 0.4s, color 0.4s;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    header, footer {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ccc;
+    }
+
+    .toggle-dark {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .toggle-dark:hover {
+      background: #ccc;
+      transform: scale(1.1);
+    }
+
+    /* Parallax */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5em;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .parallax-1 {
+      background-image: url('img/pipas.png');
+    }
+
+    .parallax-2 {
+      background-image: url('img/fundo2.png');
+    }
+
+    main {
+      padding: 40px 20px;
+    }
+
+    section {
+      margin: 50px auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      max-width: 900px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      transition:  0.4s;
+    }
+
+    body.dark section {
+      background: rgba(20,20,20,0.9);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .product {
+      border: none;
+      padding: 20px;
+      margin: 15px 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    body.dark .product {
+      background: #1e1e1e;
+      color: var(--text-dark);
+    }
+
+    .product:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    #pedido {
+      display: block;
+      margin: 20px auto;
+      background: linear-gradient(45deg, black, gray);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s,  0.4s;
+    }
+
+    #pedido:hover {
+      transform: translateY(-3px) scale(1.05);
+      background: linear-gradient(45deg, gray, black);
+    }
+
+    #search {
+      display: block;
+      margin: 0 auto 30px auto;
+      padding: 12px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+
+    .map-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+    }
+
+    /* WhatsApp Flutuante */
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .hamburger {
+  display: none;
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  z-index: 1001;
+}
+
+/* Menu lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px; /* fora da tela */
+  width: 250px;
+  height: 100%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.side-menu a {
+  padding: 15px 25px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.side-menu a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Menu ativo */
+.side-menu.active {
+  left: 0;
+}
+
+/* Esconder nav padrão em telas pequenas */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1> Gaucho Pipas</h1>
+    <button class="toggle-dark" onclick="toggleDarkMode()">🌙/☀️</button>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+<nav class="side-menu" id="sideMenu">
+  <a href="#pipas" onclick="toggleMenu()">Pipas</a>
+  <a href="#linhas" onclick="toggleMenu()">Linhas & Carretilhas</a>
+  <a href="#rabiolas" onclick="toggleMenu()">Rabiolas</a>
+  <a href="#avisos" onclick="toggleMenu()">Avisos</a>
+  <a href="#localizacao" onclick="toggleMenu()">Localização</a>
+  <a href="#sobre" onclick="toggleMenu()">Sobre Nós</a>
+  <a href="#contato" onclick="toggleMenu()">Contato</a>
+</nav>
+  </header>
+
+  <!-- Parallax Topo -->
+  <div class="parallax parallax-1">Gaucho Pipas</div>
+
+  <main>
+    <input type="text" id="search" placeholder="Buscar produto..." onkeyup="buscarProdutos()"/>
+
+    <section id="pipas">
+      <h2>Pipas</h2>
+      <div class="product" data-nome="Pipa Pequena">
+        <p><strong>Pipa Pequena</strong> - R$ 2,00</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="2" data-produto="Pipa Pequena"/></label>
+      </div>
+      <div class="product" data-nome="Pipa Média">
+        <p><strong>Pipa Média</strong> - R$ 3,50</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="3.5" data-produto="Pipa Média"/></label>
+      </div>
+      <div class="product" data-nome="Pipa Grande">
+        <p><strong>Pipa Grande</strong> - R$ 5,00</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="5" data-produto="Pipa Grande"/></label>
+      </div>
+    </section>
+
+    <section id="linhas">
+      <h2>Linhas e Carretilhas</h2>
+      <div class="product" data-nome="Linha 10 (100m)">
+        <p><strong>Linha 10 (100m)</strong> - R$ 4,00</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="4" data-produto="Linha 10"/></label>
+      </div>
+      <div class="product" data-nome="Carretilha Média">
+        <p><strong>Carretilha Média</strong> - R$ 7,00</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="7" data-produto="Carretilha Média"/></label>
+      </div>
+    </section>
+
+    <section id="rabiolas">
+      <h2>Rabiolas</h2>
+      <div class="product" data-nome="Rabiola Simples">
+        <p><strong>Rabiola Simples</strong> - R$ 1,50</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="1.5" data-produto="Rabiola Simples"/></label>
+      </div>
+      <div class="product" data-nome="Rabiola Decorada">
+        <p><strong>Rabiola Decorada</strong> - R$ 2,50</p>
+        <label>Quantidade: <input type="number" min="0" value="0" class="quantidade" data-preco="2.5" data-produto="Rabiola Decorada"/></label>
+      </div>
+    </section>
+
+    <section>
+      <h3>Total: R$ <span id="total">0.00</span></h3>
+      <button id="pedido" onclick="fazerPedido()">Fazer Pedido via WhatsApp</button>
+    </section>
+
+    <section id="avisos">
+      <h2>📢 Avisos & Eventos</h2>
+      <p><strong>Festival de Pipas 2025</strong></p>
+      <p>Data: Todo domingo a partir das 13h</p>
+      <p>Local: Campinho do Jardim Vitória</p>
+      <p>Traga ou compre sua pipa conosco e venha participar! Vendemos tudo no local: pipas, linhas, rabiolas e até refrescos!</p>
+    </section>
+
+    <!-- Parallax antes do contato -->
+    <div class="parallax parallax-2">Venha Voar Alto Conosco!</div>
+
+    <section id="localizacao">
+      <h2>📍 Onde nos encontrar</h2>
+      <p><strong>Endereço:</strong> R. Sete, 183 - Jardim Vitória, Cuiabá - MT, 78055-766</p>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps?q=R.+Sete,+183+-+Jardim+Vit%C3%B3ria,+Cuiab%C3%A1+-+MT,+78055-766&output=embed" 
+          allowfullscreen="" loading="lazy">
+        </iframe>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <h2>Sobre Nós</h2>
+      <p>Somos apaixonados por pipas! Trabalhamos com materiais de qualidade e tradição no bairro há mais de 10 anos.</p>
+    </section>
+
+    <section id="contato">
+      <h2>Contato</h2>
+      <p>Email: contato@Gauchopipas.com</p>
+      <p>Telefone: (65) 99280-8795</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Gaucho Pipas - Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Botão WhatsApp -->
+  <a class="whatsapp" href="https://wa.me/5565992808795" target="_blank">💬</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const inputs = document.querySelectorAll('.quantidade');
+const totalEl = document.getElementById('total');
+
+// Alerta de boas-vindas
+Swal.fire({
+  title: 'Bem-vindo ao Gaucho Pipas!',
+  text: 'Confira nossas pipas, linhas e rabiolas com os melhores preços!',
+  icon: 'info',
+  confirmButtonText: 'Vamos lá!'
+});
+
+inputs.forEach(input => {
+  input.addEventListener('input', calcularTotal);
+});
+
+function calcularTotal() {
+  let total = 0;
+  inputs.forEach(input => {
+    const preco = parseFloat(input.dataset.preco);
+    const qtd = parseInt(input.value) || 0;
+    total += preco * qtd;
+  });
+  totalEl.textContent = total.toFixed(2);
+}
+
+function fazerPedido() {
+  let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
+  let total = 0;
+  let itensSelecionados = 0;
+
+  inputs.forEach(input => {
+    const qtd = parseInt(input.value);
+    const preco = parseFloat(input.dataset.preco);
+    const nome = input.dataset.produto;
+    if (qtd > 0) {
+      mensagem += `• ${qtd}x ${nome} - R$${(qtd * preco).toFixed(2)}%0A`;
+      total += qtd * preco;
+      itensSelecionados++;
+    }
+  });
+
+  if(itensSelecionados === 0){
+    Swal.fire({
+      title: 'Erro!',
+      text: 'Você precisa selecionar pelo menos um produto antes de fazer o pedido.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+
+  mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
+  const numeroWhatsApp = "5565992808795"; 
+  const url = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+  
+  Swal.fire({
+    title: 'Pedido pronto!',
+    text: 'Você será direcionado para o WhatsApp.',
+    icon: 'success',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    window.open(url, "_blank");
+  });
+}
+
+function buscarProdutos() {
+  const termo = document.getElementById("search").value.toLowerCase();
+  const produtos = document.querySelectorAll(".product");
+  produtos.forEach(produto => {
+    const nome = produto.dataset.nome.toLowerCase();
+    produto.style.display = nome.includes(termo) ? "block" : "none";
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  const tema = document.body.classList.contains('dark') ? 'Escuro 🌙' : 'Claro ☀️';
+  Swal.fire({
+    title: 'Tema alterado!',
+    text: `O tema atual é: ${tema}`,
+    icon: 'info',
+    timer: 1500,
+    showConfirmButton: false
+  });
+}
+
+// Função para abrir/fechar menu lateral
+function toggleMenu() {
+  const menu = document.getElementById("sideMenu");
+  menu.classList.toggle("active");
+}
+  </script>
+</body>
+</html>
