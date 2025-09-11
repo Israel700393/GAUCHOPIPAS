@@ -530,50 +530,163 @@ body.dark .parallax {
   color: #fff;
   text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
 }
-/* Ícone de lupa fixo dentro do header */
-.search-btn {
-  position: absolute; /* dentro do header */
-  top: 50%;
-  right: 20px; /* distância da borda direita */
-  transform: translateY(-50%);
-  font-size: 24px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: transform 0.3s, background 0.3s;
+/* ===== Header ===== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background: #313131;
+  position: relative;
+  flex-wrap: wrap;
 }
 
-.search-btn:hover {
-  transform: translateY(-50%) scale(1.1);
+/* Texto rotativo centralizado */
+h1 {
+  font-size: clamp(18px, 4vw, 28px); /* responsivo */
+  font-weight: bold;
+  margin: 0;
+  height: 36px;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Botões */
+.header-buttons {
+  position: absolute;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-dark, .hamburger {
+  padding: 6px 10px;
+  border: none;
   background: #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+.toggle-dark:hover, .hamburger:hover {
+  background: #555;
+}
+
+/* Menu lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 220px;
+  height: 100%;
+  background: #222;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.side-menu a {
+  color: white;
+  text-decoration: none;
+  margin: 10px 0;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.side-menu a:hover {
+  color: #ffcc00;
+}
+
+.side-menu.active {
+  right: 0;
+}
+
+/* ===== Animação fade ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Dark Mode ===== */
+body.dark {
+  background: #121212;
+  color: #f4f4f4;
+}
+
+body.dark header {
+  background: #1e1e1e;
+}
+
+body.dark .toggle-dark, 
+body.dark .hamburger {
+  background: #555;
+}
+
+body.dark .side-menu {
+  background: #333;
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(16px, 5vw, 24px);
+  }
+  
+  .header-buttons {
+    position: relative;
+    right: 0;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(14px, 6vw, 20px);
+  }
+
+  .toggle-dark, .hamburger {
+    font-size: 16px;
+    padding: 5px 8px;
+  }
+
+  .side-menu {
+    width: 180px;
+  }
 }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Gaucho Pipas</h1>
-  <button class="toggle-dark" onclick="toggleDarkMode()">🌙/☀️</button>
-  <button class="hamburger" onclick="toggleMenu()">☰</button>
+  <!-- Texto rotativo centralizado -->
+  <h1 id="rotating-text"></h1>
 
+  <!-- Botões -->
+ 
+    <button class="toggle-dark" onclick="toggleDarkMode()">🌙/☀️</button>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+  </div>
 
-
-<nav class="side-menu" id="sideMenu">
-  <a href="#pipas" onclick="toggleMenu()">Pipas</a>
-  <a href="#linhas" onclick="toggleMenu()">Linhas & Carretilhas</a>
-  <a href="#rabiolas" onclick="toggleMenu()">Rabiolas</a>
-  <a href="#avisos" onclick="toggleMenu()">Avisos</a>
-  <a href="#localizacao" onclick="toggleMenu()">Localização</a>
-  <a href="#sobre" onclick="toggleMenu()">Sobre Nós</a>
-  <a href="#contato" onclick="toggleMenu()">Contato</a>
-</nav>
-  </header>
+  <!-- Menu lateral -->
+  <nav class="side-menu" id="sideMenu">
+    <a href="#pipas" onclick="toggleMenu()">Pipas</a>
+    <a href="#linhas" onclick="toggleMenu()">Linhas & Carretilhas</a>
+    <a href="#rabiolas" onclick="toggleMenu()">Rabiolas</a>
+    <a href="#avisos" onclick="toggleMenu()">Avisos</a>
+    <a href="#localizacao" onclick="toggleMenu()">Localização</a>
+    <a href="#sobre" onclick="toggleMenu()">Sobre Nós</a>
+    <a href="#contato" onclick="toggleMenu()">Contato</a>
+  </nav>
+</header>
 
   <!-- Parallax Topo -->
-  <div class="parallax parallax-1">Abaixo veja e adquira sua diverção!</div>
+  <div class="parallax parallax-1">Abaixo escollha e adquira sua diverção!</div>
     <section id="sobre">
       <h2>Sobre Nós</h2>
       <p>Somos apaixonados por pipas! Trabalhamos com materiais de qualidade e tradição no bairro há mais de 10 anos.</p>
@@ -651,7 +764,7 @@ body.dark .parallax {
     </section>
 
 <section id="carrossel">
-  <h2>Galeria Multimídia</h2>
+  <h2>Galeria Eventos</h2>
   <div class="carousel">
     <div class="carousel-track">
       <div class="carousel-item">
@@ -681,7 +794,7 @@ body.dark .parallax {
     </section>
 
     <!-- Parallax antes do contato -->
-    <div class="parallax parallax-2">Venha Voar Alto Conosco!</div>  
+    <div class="parallax parallax-2">Com Gaucho Pipas é do Céu para cima!</div>  
 
 <!-- Seção Galeria -->
 <section id="galeria">
@@ -721,303 +834,123 @@ body.dark .parallax {
   <a class="whatsapp" href="https://wa.me/5565992808795" target="_blank">💬</a>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    const inputs = document.querySelectorAll('.quantidade');
-const totalEl = document.getElementById('total');
+<script>
+  let carrinho = [];
+  const totalEl = document.getElementById('total');
 
-// Alerta de boas-vindas
-Swal.fire({
-  title: 'Bem-vindo ao Gaucho Pipas!',
-  text: 'Confira nossas pipas, linhas e rabiolas com os melhores preços!',
-  icon: 'info',
-  confirmButtonText: 'Vamos lá!'
-});
-
-inputs.forEach(input => {
-  input.addEventListener('input', calcularTotal);
-});
-
-function calcularTotal() {
-  let total = 0;
-  inputs.forEach(input => {
-    const preco = parseFloat(input.dataset.preco);
-    const qtd = parseInt(input.value) || 0;
-    total += preco * qtd;
-  });
-  totalEl.textContent = total.toFixed(2);
-}
-
-function fazerPedido() {
-  let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
-  let total = 0;
-  let itensSelecionados = 0;
-
-  inputs.forEach(input => {
-    const qtd = parseInt(input.value);
-    const preco = parseFloat(input.dataset.preco);
-    const nome = input.dataset.produto;
-    if (qtd > 0) {
-      mensagem += `• ${qtd}x ${nome} - R$${(qtd * preco).toFixed(2)}%0A`;
-      total += qtd * preco;
-      itensSelecionados++;
-    }
-  });
-
-  if(itensSelecionados === 0){
-    Swal.fire({
-      title: 'Erro!',
-      text: 'Você precisa selecionar pelo menos um produto antes de fazer o pedido.',
-      icon: 'error',
-      confirmButtonText: 'OK'
-    });
-    return;
-  }
-
-  mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
-  const numeroWhatsApp = "5565992808795"; 
-  const url = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
-  
+  // Boas-vindas
   Swal.fire({
-    title: 'Pedido pronto!',
-    text: 'Você será direcionado para o WhatsApp.',
-    icon: 'success',
-    confirmButtonText: 'OK'
-  }).then(() => {
-    window.open(url, "_blank");
-  });
-}
-
-function buscarProdutos() {
-  const termo = document.getElementById("search").value.toLowerCase();
-  const produtos = document.querySelectorAll(".product");
-  produtos.forEach(produto => {
-    const nome = produto.dataset.nome.toLowerCase();
-    produto.style.display = nome.includes(termo) ? "block" : "none";
-  });
-}
-
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-  const tema = document.body.classList.contains('dark') ? 'Escuro 🌙' : 'Claro ☀️';
-  Swal.fire({
-    title: 'Tema alterado!',
-    text: `O tema atual é: ${tema}`,
+    title: 'Bem-vindo ao Gaucho Pipas!',
+    text: 'Confira nossas pipas, linhas e rabiolas com os melhores preços!',
     icon: 'info',
-    timer: 1500,
-    showConfirmButton: false
+    confirmButtonText: 'Vamos lá!'
   });
-}
 
-// Função para abrir/fechar menu lateral
-function toggleMenu() {
-  const menu = document.getElementById("sideMenu");
-  menu.classList.toggle("active");
-}
-// Galeria interativa com zoom
-const galleryItems = document.querySelectorAll('.gallery-item');
-const modal = document.createElement('div');
-modal.classList.add('modal');
-document.body.appendChild(modal);
+  // Adicionar produto ao carrinho
+  function adicionarProduto(btn) {
+    const card = btn.closest('.product-card');
+    const nome = card.dataset.nome;
+    const preco = parseFloat(card.dataset.preco);
 
-const modalImg = document.createElement('img');
-modal.appendChild(modalImg);
+    // Verifica se já existe no carrinho
+    const itemExistente = carrinho.find(item => item.nome === nome);
+    if (itemExistente) {
+      itemExistente.qtd++;
+    } else {
+      carrinho.push({ nome, preco, qtd: 1 });
+    }
 
-galleryItems.forEach(item => {
-  item.addEventListener('click', () => {
-    modalImg.src = item.src;
-    modal.classList.add('show');
-  });
-});
+    atualizarTotal();
 
-modal.addEventListener('click', () => {
-  modal.classList.remove('show');
-});
-// Troca de imagem ao passar o mouse
-document.querySelectorAll('.product-card img').forEach(img => {
-  const original = img.src;
-  const hoverSrc = img.dataset.hover;
-  if(hoverSrc){
-    img.addEventListener('mouseover', () => img.src = hoverSrc);
-    img.addEventListener('mouseout', () => img.src = original);
-  }
-});
-
-// Adicionar ao pedido via botão de carrinho
-function adicionarProduto(btn){
-  const card = btn.closest('.product-card');
-  const nome = card.dataset.nome;
-  const preco = parseFloat(card.dataset.preco);
-
-  // Criar/atualizar input escondido
-  let input = Array.from(inputs).find(i => i.dataset.produto === nome);
-  if(!input){
-    input = document.createElement('input');
-    input.type = 'number';
-    input.value = 1;
-    input.min = 0;
-    input.className = 'quantidade';
-    input.dataset.preco = preco;
-    input.dataset.produto = nome;
-    input.addEventListener('input', calcularTotal);
-    document.body.appendChild(input); // Pode ser escondido
-    inputs.push(input);
-  } else {
-    input.value = parseInt(input.value) + 1;
-  }
-
-  calcularTotal();
-  Swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: `${nome} adicionado ao pedido!`,
-    showConfirmButton: false,
-    timer: 1000
-  });
-}
-// Hover de imagem
-document.querySelectorAll('.product-card img').forEach(img => {
-  const original = img.src;
-  const hoverSrc = img.dataset.hover;
-  if (hoverSrc) {
-    img.addEventListener('mouseover', () => img.src = hoverSrc);
-    img.addEventListener('mouseout', () => img.src = original);
-  }
-});
-
-// Criar array global de produtos para cálculo
-const produtosSelecionados = [];
-
-// Adicionar produto ao pedido e atualizar total
-function adicionarProduto(btn) {
-  const card = btn.closest('.product-card');
-  const nome = card.dataset.nome;
-  const preco = parseFloat(card.dataset.preco);
-
-  // Verifica se já existe no array
-  const itemExistente = produtosSelecionados.find(p => p.nome === nome);
-  if (itemExistente) {
-    itemExistente.qtd += 1;
-  } else {
-    produtosSelecionados.push({ nome, preco, qtd: 1 });
-  }
-
-  atualizarTotal();
-  Swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: `${nome} adicionado ao pedido!`,
-    showConfirmButton: false,
-    timer: 1000
-  });
-}
-
-// Atualiza o total
-function atualizarTotal() {
-  let total = 0;
-  produtosSelecionados.forEach(p => total += p.preco * p.qtd);
-  totalEl.textContent = total.toFixed(2);
-}
-
-// Modifica função fazerPedido() para usar o array produtosSelecionados
-function fazerPedido() {
-  if(produtosSelecionados.length === 0){
+    // Alerta rápido e menor
     Swal.fire({
-      title: 'Erro!',
-      text: 'Você precisa adicionar pelo menos um produto antes de fazer o pedido.',
-      icon: 'error',
-      confirmButtonText: 'OK'
+      position: 'center',
+      icon: 'success',
+      title: `${nome} adicionado!`,
+      showConfirmButton: false,
+      timer: 800,
+      width: '250px'
     });
-    return;
   }
 
-  let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
-  let total = 0;
-  produtosSelecionados.forEach(item => {
-    mensagem += `• ${item.qtd}x ${item.nome} - R$${(item.preco * item.qtd).toFixed(2)}%0A`;
-    total += item.preco * item.qtd;
-  });
-  mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
-  
-  const numeroWhatsApp = "5565992808795"; 
-  const url = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
-  
-  Swal.fire({
-    title: 'Pedido pronto!',
-    text: 'Você será direcionado para o WhatsApp.',
-    icon: 'success',
-    confirmButtonText: 'OK'
-  }).then(() => window.open(url, "_blank"));
-}
-function adicionarProduto(btn) {
-  const card = btn.closest('.product-card');
-  const nome = card.dataset.nome;
-  const preco = parseFloat(card.dataset.preco);
-
-  // Verifica se já existe no array
-  const itemExistente = produtosSelecionados.find(p => p.nome === nome);
-  if (itemExistente) {
-    itemExistente.qtd += 1;
-  } else {
-    produtosSelecionados.push({ nome, preco, qtd: 1 });
+  // Atualizar total
+  function atualizarTotal() {
+    let total = 0;
+    carrinho.forEach(item => {
+      total += item.preco * item.qtd;
+    });
+    totalEl.textContent = total.toFixed(2);
   }
 
-  atualizarTotal();
+  // Fazer pedido no WhatsApp
+  function fazerPedido() {
+    if (carrinho.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Carrinho vazio',
+        text: 'Adicione produtos antes de continuar!'
+      });
+      return;
+    }
 
-  // SweetAlert menor, centralizado e rápido
-  Swal.fire({
-    position: 'center',
-    icon: 'success',
-    title: `✅ ${nome} adicionado!`,
-    showConfirmButton: false,
-    timer: 700, // 0,7 segundos
-    width: '250px',
-    padding: '10px',
-    toast: false
-  });
-}
-const track = document.querySelector('.carousel-track');
-const items = Array.from(track.children);
-const prevBtn = document.querySelector('.carousel-btn.prev');
-const nextBtn = document.querySelector('.carousel-btn.next');
-const dotsContainer = document.querySelector('.carousel-dots');
+    let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
+    carrinho.forEach(item => {
+      mensagem += `${item.qtd}x ${item.nome} - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
+    });
+    mensagem += `%0ATotal: R$ ${totalEl.textContent}`;
+
+    window.open(`https://wa.me/5565992808795?text=${mensagem}`, "_blank");
+  }
+
+  // Menu lateral
+  function toggleMenu() {
+    document.getElementById('sideMenu').classList.toggle('active');
+  }
+
+  // Dark Mode
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+  }
+
+  // Filtro de busca
+  function buscarProdutos() {
+    const termo = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.product-card').forEach(card => {
+      const nome = card.dataset.nome.toLowerCase();
+      card.style.display = nome.includes(termo) ? '' : 'none';
+    });
+  }
+// Palavras rotativas
+const texts = [
+  "Bem-Vindo(a) ao Gaucho Pipas",
+  "Aqui você encontra pipas incríveis ",
+  "Linhas & Carretilhas de qualidade ",
+  "Rabiolas trabalhadas ",
+  "Diversão garantida no céu!"
+];
 
 let index = 0;
+const rotatingText = document.getElementById("rotating-text");
 
-// Criar indicadores (dots)
-items.forEach((_, i) => {
-  const dot = document.createElement('div');
-  dot.classList.add('carousel-dot');
-  if(i === 0) dot.classList.add('active');
-  dot.addEventListener('click', () => {
-    index = i;
-    updateCarousel();
-  });
-  dotsContainer.appendChild(dot);
-});
+function changeText() {
+  rotatingText.style.animation = "none"; // reseta animação
+  void rotatingText.offsetWidth; // força reinício da animação
+  rotatingText.textContent = texts[index];
+  rotatingText.style.animation = "fadeIn 1s ease-in-out";
+  index = (index + 1) % texts.length;
+}
+setInterval(changeText, 3000);
+changeText();
 
-const dots = Array.from(dotsContainer.children);
-
-function updateCarousel() {
-  track.style.transform = `translateX(-${index * 100}%)`;
-  dots.forEach(dot => dot.classList.remove('active'));
-  dots[index].classList.add('active');
+// Menu toggle
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("active");
 }
 
-prevBtn.addEventListener('click', () => {
-  index = (index === 0) ? items.length -1 : index -1;
-  updateCarousel();
-});
-
-nextBtn.addEventListener('click', () => {
-  index = (index === items.length -1) ? 0 : index +1;
-  updateCarousel();
-});
-
-// Auto-play
-setInterval(() => {
-  index = (index === items.length -1) ? 0 : index +1;
-  updateCarousel();
-}, 5000);
-  </script>
+// Dark mode toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+</script>
 </body>
 </html>
