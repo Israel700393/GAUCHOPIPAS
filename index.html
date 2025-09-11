@@ -327,68 +327,80 @@ footer {
   color:  #9b580c;
   transition: 0.3s, color 0.3s;
 }
-/* Estilos base */
+/* AVISOS padronizados */
 #avisos {
+  padding: 60px 20px; /* mesmo padding das sections */
+  max-width: 1200px;  /* mesmo max-width das sections */
+  margin: 0 auto;      /* centraliza */
   border: 2px dashed;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-width: 90%;
+  border-color: #ff9900;
   border-radius: 8px;
   transition: all 0.3s ease;
   font-family: Arial, sans-serif;
+  background-color: #d6d5d5;
+  color: #1e1e1e;
 }
 
 /* Títulos */
 #avisos h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 /* Parágrafos */
 #avisos p {
   margin: 0.5rem 0;
   font-size: 1.1rem;
+  text-align: center;
 }
 
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-  #avisos {
-    background-color: #e6f0fa; /* azul claro */
-    color: #333333; /* cinza escuro para legibilidade */
-    border-color: #a3bcd6; /* azul acinzentado */
-  }
-
-  #avisos h2 {
-    color: #225577;
-  }
+/* CARRINHO LATERAL */
+#carrinho-lateral {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100vh;
+  background: var(--card-bg);
+  box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease-in-out;
+  z-index: 1100;
 }
 
-/* Modo escuro */
-@media (prefers-color-scheme: dark) {
-  #avisos {
-    background-color: #313131; /* quase preto */
-    color: #ffffff; /* laranja */
-    border-color: #ffa726;
-  }
-
-  #avisos h2 {
-    color: #b8c9ff;
-  }
+#carrinho-lateral.active {
+  right: 0;
 }
 
-/* Responsividade extra para telas menores */
-@media (max-width: 600px) {
-  #avisos {
-    padding: 1rem;
-  }
+#carrinho-lateral h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  #avisos h2 {
-    font-size: 1.5rem;
-  }
+#lista-pedidos-lateral {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
 
-  #avisos p {
-    font-size: 1rem;
-  }
+#total-lateral {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#close-cart {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
  
@@ -523,10 +535,20 @@ footer {
     </section>
 
     <!-- SEÇÃO TOTAL E PEDIDO -->
-    <section id="pedido-section">
-      <h2>Total: R$ <span id="total">0.00</span></h2>
-      <button id="pedido" onclick="fazerPedido()">Fazer Pedido via WhatsApp</button>
-    </section>
+<section id="pedido-section">
+  <h2>Seu Carrinho</h2>
+  <ul id="lista-pedidos" style="list-style: none; padding: 0; margin-bottom: 20px;"></ul>
+  <h3>Total: R$ <span id="total">0.00</span></h3>
+  <button id="pedido" onclick="fazerPedido()">Fazer Pedido via WhatsApp</button>
+</section>
+<div id="carrinho-lateral">
+  <button id="close-cart" onclick="toggleCart()">&times;</button>
+  <h2>Seu Carrinho</h2>
+  <ul id="lista-pedidos-lateral" style="list-style: none; padding: 0;"></ul>
+  <h3 id="total-lateral">R$ 0.00</h3>
+
+</div>
+
 
     <!-- GALERIA -->
     <section id="galeria">
@@ -717,6 +739,80 @@ footer {
     setInterval(changeText, 3000);
     changeText();
 window.matchMedia('(prefers-color-scheme: dark)').matches
+function atualizarTotal() {
+  let total = 0;
+  const listaLateral = document.getElementById('lista-pedidos-lateral');
+  listaLateral.innerHTML = ''; // Limpa a lista antes de atualizar
+
+  carrinho.forEach(item => {
+    total += item.preco * item.qtd;
+    // Adiciona item à lista lateral
+    const li = document.createElement('li');
+    li.textContent = `${item.qtd}x ${item.nome} - R$ ${(item.preco * item.qtd).toFixed(2)}`;
+    li.style.marginBottom = '10px';
+    listaLateral.appendChild(li);
+  });
+
+  document.getElementById('total').textContent = total.toFixed(2);
+  document.getElementById('total-lateral').textContent = `R$ ${total.toFixed(2)}`;
+}
+
+// Abre/fecha o carrinho lateral
+function toggleCart() {
+  document.getElementById('carrinho-lateral').classList.toggle('active');
+}
+
+// Faz o pedido via WhatsApp (já existente)
+function fazerPedido() {
+  if (carrinho.length === 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Carrinho vazio',
+      text: 'Adicione produtos antes de continuar!'
+    });
+    return;
+  }
+
+  let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
+  carrinho.forEach(item => {
+    mensagem += `${item.qtd}x ${item.nome} - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
+  });
+  mensagem += `%0ATotal: R$ ${document.getElementById('total-lateral').textContent}`;
+
+  window.open(`https://wa.me/5565992808795?text=${mensagem}`, "_blank");
+}
+
+// Atualiza total ao adicionar produto
+function adicionarProduto(btn) {
+  const card = btn.closest('.product-card');
+  const nome = card.dataset.nome;
+  const preco = parseFloat(card.dataset.preco);
+  const qtyInput = card.querySelector('.quantity-input input');
+  let qtd = parseInt(qtyInput.value);
+  if (isNaN(qtd) || qtd < 1) qtd = 1;
+
+  const itemExistente = carrinho.find(item => item.nome === nome);
+  if (itemExistente) {
+    itemExistente.qtd += qtd;
+  } else {
+    carrinho.push({ nome, preco, qtd });
+  }
+
+  atualizarTotal();
+  qtyInput.value = 1;
+
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: `${qtd}x ${nome} adicionado!`,
+    showConfirmButton: false,
+    timer: 800,
+    width: '250px'
+  });
+
+  // Abre automaticamente o carrinho lateral
+  document.getElementById('carrinho-lateral').classList.add('active');
+}
 
   </script>
 </body>
