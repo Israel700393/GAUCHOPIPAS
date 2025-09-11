@@ -324,35 +324,59 @@ footer {
   text-align: center;
   font-family: Arial, sans-serif;
   background-color: rgb(117, 172, 255);/* padrão */
-  color:  #9b580c;
+  color:  #000000;
   transition: 0.3s, color 0.3s;
 }
 /* AVISOS padronizados */
 #avisos {
-  padding: 60px 20px; /* mesmo padding das sections */
-  max-width: 1200px;  /* mesmo max-width das sections */
-  margin: 0 auto;      /* centraliza */
-  border: 2px dashed;
-  border-color: #ff9900;
+  display: grid;
+  padding: 4rem 2%; /* usa % nas laterais para responsividade */
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 2px dashed #ff9900;
   border-radius: 8px;
   transition: all 0.3s ease;
   font-family: Arial, sans-serif;
-  background-color: #d6d5d5;
-  color: #1e1e1e;
+  background-color: #525252;
+  color: #d1d1d1;
+  box-sizing: border-box;
 }
 
 /* Títulos */
 #avisos h2 {
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* cresce e diminui com a tela */
+  margin-bottom: 1.5rem;
 }
 
 /* Parágrafos */
 #avisos p {
   margin: 0.5rem 0;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem); /* responsivo */
   text-align: center;
+  line-height: 1.5;
+}
+
+/* Responsividade adicional */
+@media (max-width: 768px) {
+  #avisos {
+    padding: 3rem 5%; /* menos padding em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  #avisos {
+    padding: 2rem 4%;
+    border-width: 1.5px;
+  }
+  
+  #avisos h2 {
+    font-size: 1.5rem;
+  }
+
+  #avisos p {
+    font-size: 1rem;
+  }
 }
 
 /* CARRINHO LATERAL */
@@ -533,6 +557,24 @@ footer {
         </div>
       </div>
     </section>
+<!-- Botão Carrinho flutuante -->
+<a class="cart-btn" href="javascript:void(0)" onclick="toggleCart()" style="
+    position: fixed;
+    bottom: 100px; /* acima do WhatsApp */
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+">🛒</a>
 
     <!-- SEÇÃO TOTAL E PEDIDO -->
 <section id="pedido-section">
@@ -812,6 +854,9 @@ function adicionarProduto(btn) {
 
   // Abre automaticamente o carrinho lateral
   document.getElementById('carrinho-lateral').classList.add('active');
+}
+function toggleCart() {
+  document.getElementById('carrinho-lateral').classList.toggle('active');
 }
 
   </script>
