@@ -327,7 +327,69 @@ footer {
   color:  #9b580c;
   transition: 0.3s, color 0.3s;
 }
+/* Estilos base */
+#avisos {
+  border: 2px dashed;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 90%;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: Arial, sans-serif;
+}
 
+/* Títulos */
+#avisos h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Parágrafos */
+#avisos p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+  #avisos {
+    background-color: #e6f0fa; /* azul claro */
+    color: #333333; /* cinza escuro para legibilidade */
+    border-color: #a3bcd6; /* azul acinzentado */
+  }
+
+  #avisos h2 {
+    color: #225577;
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  #avisos {
+    background-color: #313131; /* quase preto */
+    color: #ffffff; /* laranja */
+    border-color: #ffa726;
+  }
+
+  #avisos h2 {
+    color: #b8c9ff;
+  }
+}
+
+/* Responsividade extra para telas menores */
+@media (max-width: 600px) {
+  #avisos {
+    padding: 1rem;
+  }
+
+  #avisos h2 {
+    font-size: 1.5rem;
+  }
+
+  #avisos p {
+    font-size: 1rem;
+  }
+}
 
  
   </style>
